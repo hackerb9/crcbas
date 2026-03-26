@@ -38,7 +38,7 @@ Download [crcbas.do](crcbas.do) to your Model-T and run it.
   fast, requiring an eighth of a second per kilobyte. (See
   [crc16-8080][crc16-8080] for faster, larger alternatives.)
   
-  [crc16-pushpop.asm]: https://github.com/hackerb9/crc16-8080/blob/main/crc16-pushpop.asm
+  [pushpop]: https://github.com/hackerb9/crc16-8080/blob/main/crc16-pushpop.asm
   [crc16-8080]: https://github.com/hackerb9/crc16-8080/
 
 ## Discussion
