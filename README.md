@@ -29,7 +29,7 @@ meant to be simple and self-explanatory.
   ```
   
   A large file can be processed in blocks by simply leaving the result
-  in i%[2] instead of resetting it to zero. The final checksum will be
+  in `i%[2]` instead of resetting it to zero. The final checksum will be
   the same as if it had been processed as a single piece.
 
 * [GENCRC.ASM](GENCRC.ASM) is the source code for GENCRC.CO. It is
@@ -158,10 +158,10 @@ is different.
    40070 RETURN
    ```
 
-2. As an alternative, POKE to reserved memory instead of using an
-   array of BASIC integers and trying to find the address. For
-   example, the memory addresses from 61096 to 61101 are available.
-   If we set the HL register 61096, then we'd have:
+2. As an alternative, POKE to reserved memory instead of trying to
+   find the address the address of an array of BASIC integers. For
+   example, the memory addresses from 61096 to 61101 are available. If
+   we set the HL register 61096, then we'd have:
 
    | Variable      | L     | H     |
    |---------------|-------|-------|
