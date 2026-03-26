@@ -84,8 +84,8 @@ BASIC program over the serial port (`RUN "COM:98N1E"`).
 The string is encoded in a custom variant of [bang-code][bangcode]
 that hijacks the `!` (bang) character to encode addresses as relative
 offsets (±32) in the following byte. [_Offset byte_ = _Target_ -
-_Current_ + 80 (decimal), where _Current_ is the address of the opcode
-before the address.]
+_Current_ + 80 (decimal), where _Current_ is the address of the
+relevant opcode.]
 
 [bangcode]: https://github.com/hackerb9/co2do/blob/main/bangcode.md
 
