@@ -4,9 +4,10 @@ A fast, small, and general purpose CRC-16/xmodem checksum algorithm
 that can be called from BASIC on the TRS-80 Model 100 computer and
 the like.
 
-## Quick usage:
+## QUICK USAGE:
 
-Download [crcbas.do](crcbas.do) to your Model-T and run it. 
+Download [crcbas.do](crcbas.do) to your Model-T and run it. Usage is
+meant to be simple and self-explanatory.
 
 ## Overview
 
@@ -41,7 +42,9 @@ Download [crcbas.do](crcbas.do) to your Model-T and run it.
   [pushpop]: https://github.com/hackerb9/crc16-8080/blob/main/crc16-pushpop.asm
   [crc16-8080]: https://github.com/hackerb9/crc16-8080/
 
-## Discussion
+____
+
+## Discussion & Digressions
 
 ### About CRC-16
 
