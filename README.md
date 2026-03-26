@@ -12,8 +12,9 @@ meant to be simple and self-explanatory.
 ## Overview
 
 * [crcbas.do](crcbas.do) (1 KB) is a BASIC program which loads GENCRC
-  (see below) and demonstrates how to execute it. Does not interfere
-  with any .CO program loaded in ALTLCD or high memory.
+  (see below) and demonstrates how to execute it. It relocates the
+  code into a string and does not interfere with any .CO program
+  loaded in ALTLCD or high memory.
   
 * [GENCRC.CO](GENCRC.CO) (55 Bytes) is GENCRC.ASM assembled to run at
   memory location 61024. Usage:
