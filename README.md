@@ -48,13 +48,16 @@ ____
 
 ### About CRC-16
 
-The CRC-16/Xmodem is a Cyclic Redundancy Checksum from the 8-bit era
-of computing. If the calculated CRC-16 matches the published value for
-a file, then there is 99.9985% certainty that the file was received
-without error. CRC-16 checks for accidental changes, unlike modern
-message digests, such as [SHA-3][sha3], which are secure against
-malicious adversaries. Please see [crc16-8080][crc16-8080] for a
-better understanding of the algorithm.
+The CRC-16/Xmodem algorithm is a Cyclic Redundancy Checksum from the
+8-bit era of computing. There are actually many CRC-16 variations, and
+this one happens to be the flavor used by the Xmodem protocol. 
+
+If the calculated CRC-16 matches the published value for a file, then
+there is 99.9985% certainty that the file was received without error.
+CRC-16 checks for accidental changes, unlike modern message digests,
+such as [SHA-3][sha3], which are secure against malicious adversaries.
+Please see [crc16-8080][crc16-8080] for a better understanding of the
+algorithm.
 
 [sha3]: https://en.wikipedia.org/wiki/SHA-3
 
