@@ -164,7 +164,7 @@ is different.
    example, the memory addresses from 61096 to 61101 are available. If
    we set the HL register 61096, then we'd have:
 
-   | Variable      | L     | H     |
+   | Variable      | Low   | High  |
    |---------------|-------|-------|
    | Start address | 61096 | 61097 |
    | Length        | 61098 | 61099 |
