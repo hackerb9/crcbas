@@ -119,7 +119,7 @@ bytes. There are two costs to this choice:
    PC-8300 which do not have a built-in VARPTR function. (See below.)
 
 2. BASIC integers (signified by `%`) are signed, and it is a fatal
-   error to assign a value over 32767. [Sigh.]
+   error to assign a value over 32767. [_Sigh._]
    
    ```BASIC
    i%=32768
@@ -180,7 +180,7 @@ is different.
       | Length        | 61098 | 61099 |
       | Init/Result   | 61100 | 61101 |
 
-</li><li>HL is set via POKE for N82's <code>EXEC</code>:
+</li><li>N82's <code>EXEC</code> requires HL to be set via POKE:
 
    | Register | Location |
    |----------|----------|
