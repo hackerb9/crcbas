@@ -169,8 +169,8 @@ is different.
 
    2. A better alternative would be to POKE to reserved, unused
 	  memory. For example, the addresses from 61096 to 61101 are
-	  available. GENCRC will use the following as input, if we set
-	  the HL register to 61096 before EXEC.
+	  available. GENCRC will use the following addresses as input, if
+	  we set the HL register to 61096 before EXEC.
 
       | Variable      | Low   | High  |
       |---------------|-------|-------|
@@ -178,7 +178,7 @@ is different.
       | Length        | 61098 | 61099 |
       | Init/Result   | 61100 | 61101 |
 
-</li><li>HL is set via POKE for N82's `EXEC`:
+</li><li>HL is set via POKE for N82's <code>EXEC</code>:
 
    | Register | Location |
    |----------|----------|
@@ -191,7 +191,7 @@ is different.
 
    A theoretical advantage of this method is that one can also PEEK
    those locations to see results, but it is moot for this program as
-   we return the results by writing directly into the BASIC variable.
+   we return the results by writing directly into memory.
 
 </li></ol>
 
