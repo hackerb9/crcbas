@@ -148,35 +148,35 @@ is different.
 <ol type="A">
 <li>As noted above, N82 BASIC lacks VARPTR.
 
-	1. One solution is to use a shim that implements VARPTR, such as
-       this one from Gary Weber:
+   1. One solution is to use a shim that implements VARPTR, such as
+      this one from Gary Weber:
 
-	   ``` BASIC
-	   39999 'VARPTR by Gary Weber for NEC 8201/8300
-	   40000 A=64448
-	   40010 POKEA,205:POKEA+1,175:POKEA+2,73:POKEA+3,235
-	   40020 POKEA+4,58:POKEA+5,139:POKEA+6,250:POKEA+8,201
-	   40030 IFVY$=""THENPRINT"VY$ not defined!":STOP
-	   40035 A=64457 ' HL register for EXEC = 201/251
-	   40040 FORH=1TOLEN(VY$):POKEA,ASC(MID\$(VY$,H,1)):A=A+1:NEXT:POKEA,0:POKE64464,0
-	   40050 POKE63912,201:POKE63913,251:EXEC64448
-	   40060 L=PEEK(63912):H=PEEK(63913):TY=PEEK(63911)
-	   40070 RETURN
-	   ```
+	  ``` BASIC
+	  39999 'VARPTR by Gary Weber for NEC 8201/8300
+	  40000 A=64448
+	  40010 POKEA,205:POKEA+1,175:POKEA+2,73:POKEA+3,235
+	  40020 POKEA+4,58:POKEA+5,139:POKEA+6,250:POKEA+8,201
+	  40030 IFVY$=""THENPRINT"VY$ not defined!":STOP
+	  40035 A=64457 ' HL register for EXEC = 201/251
+	  40040 FORH=1TOLEN(VY$):POKEA,ASC(MID\$(VY$,H,1)):A=A+1:NEXT:POKEA,0:POKE64464,0
+	  40050 POKE63912,201:POKE63913,251:EXEC64448
+	  40060 L=PEEK(63912):H=PEEK(63913):TY=PEEK(63911)
+	  40070 RETURN
+	  ```
 
-       However, that's a lot of work to do a job — finding the address of an
-	   array of BASIC integers — that we can skip.
+      However, that's a lot of work to do a job — finding the address of an
+	  array of BASIC integers — that we can skip.
 
-	2. A better alternative would be to POKE to reserved, unused
-	   memory. For example, the addresses from 61096 to 61101 are
-	   available. GENCRC will use the following as input, if we set
-	   the HL register to 61096 before EXEC.
+   2. A better alternative would be to POKE to reserved, unused
+	  memory. For example, the addresses from 61096 to 61101 are
+	  available. GENCRC will use the following as input, if we set
+	  the HL register to 61096 before EXEC.
 
-	   | Variable      | Low   | High  |
-	   |---------------|-------|-------|
-	   | Start address | 61096 | 61097 |
-	   | Length        | 61098 | 61099 |
-	   | Init/Result   | 61100 | 61101 |
+      | Variable      | Low   | High  |
+      |---------------|-------|-------|
+      | Start address | 61096 | 61097 |
+      | Length        | 61098 | 61099 |
+      | Init/Result   | 61100 | 61101 |
 
 </li><li>HL is set via POKE for N82's `EXEC`:
 
