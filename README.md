@@ -168,9 +168,11 @@ is different.
 	  array of BASIC integers — that we can skip.
 
    2. A better alternative would be to POKE to reserved, unused
-	  memory. For example, the addresses from 61096 to 61101 are
-	  available. GENCRC will use the following addresses as input, if
-	  we set the HL register to 61096 before EXEC.
+	  memory. 
+	  
+	  For example, the addresses from 61096 to 61101 are available.
+	  GENCRC will use those addresses as input, if we set the HL
+	  register to 61096 before EXEC:
 
       | Variable      | Low   | High  |
       |---------------|-------|-------|
