@@ -186,8 +186,8 @@ is different.
    | L        | 63912    |
    | H        | 63913    |
 
-	For example, `POKE 63912, 168: POKE 63913, 238` configures HL to
-    contain the number 61096.
+   For example, `POKE 63912, 168: POKE 63913, 238` configures HL to
+   contain the number 61096.
 
    A theoretical advantage of this method is that one can also PEEK
    those locations to see results, but it is moot for this program as
@@ -202,8 +202,8 @@ ROM:
 CLEAR 256,61024
 BLOAD "GENCRC"
 POKE 63912, 168: POKE 63913, 238		REM HL = 61096
-POKE 61096, 0: POKE 61097, 0			REM Buffer start = 0
-POKE 61098, 0: POKE 61099, 128			REM Buffer length = 32K
+POKE 61096, 0: POKE 61097, 0			REM Buffer address = 0000
+POKE 61098, 0: POKE 61099, 128			REM Buffer length = 32768
 POKE 61100, 0: POKE 61101, 0			REM Initial sum = 0
 EXEC 61024
 ?PEEK(61100)+256*PEEK(61101)			REM CRC-16 result
