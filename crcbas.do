@@ -2,7 +2,7 @@
 2 'hackerb9 2026 
 10 A$="^#V#N#F#ε~#fo!¬gΥ!–!)Ò!Z|ξ!g}ξ!΅o!•Β!BΡ!“!‹x±Β!4λαs#rΙ"
 25 'See GENCRC.ASM for source code.
-20 S$=SPACE$(255):V=VARPTR(S$):S=PEEK(V+1)+PEEK(V+2)*256
+20 S$=SPACE$(LEN(A$)):V=VARPTR(S$):S=PEEK(V+1)+PEEK(V+2)*256
 25 'M/L is relocated into S$ at addr S.
 30 I=S: FOR A=1 TO LEN(A$): P=ASC(MID$(A$,A,1))
 40 IF P<>33 THEN POKE I,P: GOTO 90
