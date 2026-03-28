@@ -92,20 +92,20 @@ relevant opcode.]
 
 ### Peculiarities of gencrc.co
 
-gencrc is meant to be used from a BASIC program, so if one decides to
+Gencrc is meant to be used from a BASIC program, so if one decides to
 use gencrc.co directly, instead of from a loader like crcbas.do, both
 the BASIC program and gencrc.co will need to be distributed to end
 users. The program should start with `CLEAR 256, 61024` and `LOADM
 "gencrc.co"`. 
 
-Because the MAXRAM (highest usable RAM address, plus one) varies on
-different models, the gencrc.asm file is "ORG'd" to run at memory
-location 61024. On a Tandy 200, where MAXRAM is 61104, an extra 25
-bytes are reserved and unused. However, on a Model 100 or Tandy 102,
-where MAXRAM is 62960, 1881 bytes are wasted — a consequential amount
-on 8K machines. For this reason, the fact that gencrc.co is only 55
-bytes is not relevant when comparing its memory footprint against the
-400 bytes from crcbas.do's BASIC loader.
+Because the value of MAXRAM (highest usable RAM address, plus one)
+varies on different models, the gencrc.asm file is "ORG'd" to run at
+memory location 61024. On a Tandy 200, where MAXRAM is 61104, an extra
+25 bytes are reserved and unused. However, on a Model 100 or Tandy
+102, where MAXRAM is 62960, 1881 bytes are wasted — a consequential
+amount on 8K machines. For this reason, the fact that gencrc.co is
+only 55 bytes is not relevant when comparing its memory footprint
+against the 400 bytes from crcbas.do's BASIC loader.
 
 ### On the use of an array of signed integers
 
@@ -142,8 +142,8 @@ bytes. There are two costs to this choice:
 
 ### NEC PC-8201 and PC-8300 support
 
-The gencrc.co works on a NEC, but the method of calling it from BASIC
-is different.
+Gencrc.co works on a NEC, but the method of calling it from BASIC 
+differs in two ways: VARPTR and HL.
 
 <ol type="A">
 <li>As noted above, N82 BASIC lacks VARPTR.
