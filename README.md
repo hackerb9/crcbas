@@ -11,17 +11,17 @@ meant to be simple and self-explanatory.
 
 ## Overview
 
-* [crcbas.do](crcbas.do) (1 KB) is a BASIC program which loads GENCRC
+* [crcbas.do](crcbas.do) (1 KB) is a BASIC program which loads gencrc
   (see below) and demonstrates how to execute it. It relocates the
-  code into a string and does not interfere with any .CO program
+  code into a string and does not interfere with any .co program
   loaded in ALTLCD or high memory.
   
-* [GENCRC.CO](GENCRC.CO) (55 Bytes) is GENCRC.ASM assembled to run at
+* [gencrc.co](gencrc.co) (55 Bytes) is gencrc.asm assembled to run at
   memory location 61024. Usage:
 
   ``` BASIC
   CLEAR 256,61024
-  LOADM "GENCRC.CO"
+  LOADM "gencrc.co"
   i%[0] = 12345                     REM buffer start address
   i%[1] = 256                       REM buffer length
   i%[2] = 0                         REM (initial checksum / result) 
@@ -33,7 +33,7 @@ meant to be simple and self-explanatory.
   in `i%[2]` instead of resetting it to zero. The final checksum will be
   the same as if it had been processed as a single piece.
 
-* [GENCRC.ASM](GENCRC.ASM) is the source code for GENCRC.CO. It is
+* [gencrc.asm](gencrc.asm) is the source code for gencrc.co. It is
   merely a BASIC interface wrapped around
   [crc16-pushpop.asm][pushpop], an implementation of CRC-16 in 34
   bytes of 8080 machine language. The push-pop algorithm is relatively
@@ -64,7 +64,7 @@ better understanding of the algorithm.
 
 ### Peculiarities of crcbas.do
 
-The crcbas.do version loads GENCRC to a BASIC string buffer, which
+The crcbas.do version loads gencrc to a BASIC string buffer, which
 has two benefits:
 
 * Coexists with any binary blobs you may have loaded into high memory
@@ -74,8 +74,8 @@ has two benefits:
 But that comes at a cost: 
 
 * crcbas.do adds about 400 bytes to your program, which seems
-  excessive when GENCRC.CO is a 55 byte file. However, see the section
-  on GENCRC below for why crcbas.do may still come out ahead.
+  excessive when gencrc.co is a 55 byte file. However, see the section
+  on gencrc below for why crcbas.do may still come out ahead.
 
 Note that the non-ASCII characters in crcbas.do are treated as text by
 the Kyotronic sisters (the M100 et al.). Crcbas.do can be loaded over
@@ -90,20 +90,20 @@ relevant opcode.]
 
 [bangcode]: https://github.com/hackerb9/co2do/blob/main/bangcode.md
 
-### Peculiarities of GENCRC.CO
+### Peculiarities of gencrc.co
 
-GENCRC is meant to be used from a BASIC program, so if one decides to
-use GENCRC.CO directly, instead of from a loader like crcbas.do, both
-the BASIC program and GENCRC.CO will need to be distributed to end
+gencrc is meant to be used from a BASIC program, so if one decides to
+use gencrc.co directly, instead of from a loader like crcbas.do, both
+the BASIC program and gencrc.co will need to be distributed to end
 users. The program should start with `CLEAR 256, 61024` and `LOADM
-"GENCRC.CO"`. 
+"gencrc.co"`. 
 
 Because the MAXRAM (highest usable RAM address, plus one) varies on
-different models, the GENCRC.ASM file is "ORG'd" to run at memory
+different models, the gencrc.asm file is "ORG'd" to run at memory
 location 61024. On a Tandy 200, where MAXRAM is 61104, an extra 25
 bytes are reserved and unused. However, on a Model 100 or Tandy 102,
 where MAXRAM is 62960, 1881 bytes are wasted — a consequential amount
-on 8K machines. For this reason, the fact that GENCRC.CO is only 55
+on 8K machines. For this reason, the fact that gencrc.co is only 55
 bytes is not relevant when comparing its memory footprint against the
 400 bytes from crcbas.do's BASIC loader.
 
@@ -114,7 +114,7 @@ input arguments instead of the original design of multiple calls to
 different addresses. This greatly simplified usage and saved many
 bytes. There are two costs to this choice:
 
-1. Any program that CALLs GENCRC must use VARPTR to get the address of
+1. Any program that CALLs gencrc must use VARPTR to get the address of
    the array. That makes it trickier to use on the NEC PC-8201 and
    PC-8300 which do not have a built-in VARPTR function. (See below.)
 
@@ -142,7 +142,7 @@ bytes. There are two costs to this choice:
 
 ### NEC PC-8201 and PC-8300 support
 
-The GENCRC.CO works on a NEC, but the method of calling it from BASIC
+The gencrc.co works on a NEC, but the method of calling it from BASIC
 is different.
 
 <ol type="A">
@@ -171,7 +171,7 @@ is different.
 	  memory. 
 	  
 	  For example, the addresses from 61096 to 61101 are available.
-	  GENCRC will use those addresses as input, if we set the HL
+	  gencrc will use those addresses as input, if we set the HL
 	  register to 61096 before EXEC:
 
       | Variable      | Low   | High  |
@@ -202,7 +202,7 @@ ROM:
 
 ```BASIC
 CLEAR 256,61024
-BLOAD "GENCRC"
+BLOAD "gencrc"
 POKE 63912, 168: POKE 63913, 238		REM HL = 61096
 POKE 61096, 0: POKE 61097, 0			REM Buffer address = 0000
 POKE 61098, 0: POKE 61099, 128			REM Buffer length = 32768

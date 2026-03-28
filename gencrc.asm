@@ -1,10 +1,10 @@
-;;; GENCRC.ASM
+;;; gencrc.asm
 
 ;;; This routine can be called from BASIC to get a checksum for any
 ;;; buffer region.
 
 ;;; Usage:
-;;;	CLEAR 256,61024: LOADM"GENCRC.CO"
+;;;	CLEAR 256,61024: LOADM"gencrc.co"
 ;;;	i%[0] = buffer start address
 ;;;	i%[1] = buffer length
 ;;;	i%[2] = 0 (initial checksum / result)
