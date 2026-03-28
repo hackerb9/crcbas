@@ -78,10 +78,11 @@ But that comes at a cost:
   on GENCRC below for why crcbas.do may still come out ahead.
 
 Note that the non-ASCII characters in crcbas.do are treated as text by
-the Kyotronic sisters (the M100 et al.) and can be loaded as a normal
-BASIC program over the serial port (`RUN "COM:98N1E"`). 
+the Kyotronic sisters (the M100 et al.). Crcbas.do can be loaded over
+the serial port (`RUN "COM:88N1"`) as if it was a normal BASIC listing
+in ASCII.
 
-The string is encoded in a custom variant of [bang-code][bangcode]
+The M/L string is encoded in a custom variant of [bang-code][bangcode]
 that hijacks the `!` (bang) character to encode addresses as relative
 offsets (±32) in the following byte. [_Offset byte_ = _Target_ -
 _Current_ + 80 (decimal), where _Current_ is the address of the
@@ -102,8 +103,9 @@ different models, the GENCRC.ASM file is "ORG'd" to run at memory
 location 61024. On a Tandy 200, where MAXRAM is 61104, an extra 25
 bytes are reserved and unused. However, on a Model 100 or Tandy 102,
 where MAXRAM is 62960, 1881 bytes are wasted — a consequential amount
-on 8K machines. For this reason, crcbas.do's BASIC loader taking 400
-bytes compared to GENCRC.CO's 55 is a non-issue.
+on 8K machines. For this reason, the fact that GENCRC.CO is only 55
+bytes is not relevant when comparing its memory footprint against the
+400 bytes from crcbas.do's BASIC loader.
 
 ### On the use of an array of signed integers
 
@@ -114,10 +116,10 @@ bytes. There are two costs to this choice:
 
 1. Any program that CALLs GENCRC must use VARPTR to get the address of
    the array. That makes it trickier to use on the NEC PC-8201 and
-   PC-8300 which do not have a built-in VARPTR function.
+   PC-8300 which do not have a built-in VARPTR function. (See below.)
 
 2. BASIC integers (signified by `%`) are signed, and it is a fatal
-   error to assign a value over 32767.
+   error to assign a value over 32767. [Sigh.]
    
    ```BASIC
    i%=32768
@@ -143,34 +145,40 @@ bytes. There are two costs to this choice:
 The GENCRC.CO works on a NEC, but the method of calling it from BASIC
 is different.
 
-1. As noted above, N82 BASIC lacks VARPTR, so a shim could be used,
-   such as this one from Gary Weber:
+<ol type="A">
+<li>As noted above, N82 BASIC lacks VARPTR.
 
-   ``` BASIC
-   39999 'VARPTR by Gary Weber for NEC 8201/8300
-   40000 A=64448
-   40010 POKEA,205:POKEA+1,175:POKEA+2,73:POKEA+3,235
-   40020 POKEA+4,58:POKEA+5,139:POKEA+6,250:POKEA+8,201
-   40030 IFVY$=""THENPRINT"VY$ not defined!":STOP
-   40035 A=64457 ' HL register for EXEC = 201/251
-   40040 FORH=1TOLEN(VY$):POKEA,ASC(MID\$(VY$,H,1)):A=A+1:NEXT:POKEA,0:POKE64464,0
-   40050 POKE63912,201:POKE63913,251:EXEC64448
-   40060 L=PEEK(63912):H=PEEK(63913):TY=PEEK(63911)
-   40070 RETURN
-   ```
+	1. One solution is to use a shim that implements VARPTR, such as
+       this one from Gary Weber:
 
-2. As an alternative, POKE to reserved memory instead of trying to
-   find the address the address of an array of BASIC integers. For
-   example, the memory addresses from 61096 to 61101 are available. If
-   we set the HL register 61096, then we'd have:
+	   ``` BASIC
+	   39999 'VARPTR by Gary Weber for NEC 8201/8300
+	   40000 A=64448
+	   40010 POKEA,205:POKEA+1,175:POKEA+2,73:POKEA+3,235
+	   40020 POKEA+4,58:POKEA+5,139:POKEA+6,250:POKEA+8,201
+	   40030 IFVY$=""THENPRINT"VY$ not defined!":STOP
+	   40035 A=64457 ' HL register for EXEC = 201/251
+	   40040 FORH=1TOLEN(VY$):POKEA,ASC(MID\$(VY$,H,1)):A=A+1:NEXT:POKEA,0:POKE64464,0
+	   40050 POKE63912,201:POKE63913,251:EXEC64448
+	   40060 L=PEEK(63912):H=PEEK(63913):TY=PEEK(63911)
+	   40070 RETURN
+	   ```
 
-   | Variable      | Low   | High  |
-   |---------------|-------|-------|
-   | Start address | 61096 | 61097 |
-   | Length        | 61098 | 61099 |
-   | Init/Result   | 61100 | 61101 |
+       However, that's a lot of work to do a job — finding the address of an
+	   array of BASIC integers — that we can skip.
 
-3. HL is set via POKE for N82's `EXEC`:
+	2. A better alternative would be to POKE to reserved, unused
+	   memory. For example, the addresses from 61096 to 61101 are
+	   available. GENCRC will use the following as input, if we set
+	   the HL register to 61096 before EXEC.
+
+	   | Variable      | Low   | High  |
+	   |---------------|-------|-------|
+	   | Start address | 61096 | 61097 |
+	   | Length        | 61098 | 61099 |
+	   | Init/Result   | 61100 | 61101 |
+
+</li><li>HL is set via POKE for N82's `EXEC`:
 
    | Register | Location |
    |----------|----------|
@@ -184,6 +192,8 @@ is different.
    A theoretical advantage of this method is that one can also PEEK
    those locations to see results, but it is moot for this program as
    we return the results by writing directly into the BASIC variable.
+
+</li></ol>
 
 Here is an example that performs a CRC check of the first 32K of ROM:
 
