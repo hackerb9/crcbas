@@ -55,10 +55,10 @@ this one happens to be the flavor used by the Xmodem protocol.
 
 If the calculated CRC-16 matches the published value for a file, then
 there is 99.9985% certainty that the file was received without error.
-CRC-16 checks for accidental changes, unlike modern message digests,
-such as [SHA-3][sha3], which are secure against malicious adversaries.
-Please see [crc16-8080][crc16-8080] for a better understanding of the
-algorithm.
+CRC-16 only checks for accidental changes, unlike modern message
+digests, such as [SHA-3][sha3], which are also secure against
+malicious adversaries. Please see [crc16-8080][crc16-8080] for a
+better understanding of the algorithm.
 
 [sha3]: https://en.wikipedia.org/wiki/SHA-3
 
@@ -195,17 +195,18 @@ is different.
 
 </li></ol>
 
-Here is an example that performs a CRC check of the first 32K of ROM:
+Here is an example that performs a CRC check of the NEC PC-8201's 32K
+ROM:
 
 ```BASIC
 CLEAR 256,61024
 BLOAD "GENCRC"
-POKE 63912, 168: POKE 63913, 238
-POKE 61096, 0: POKE 61097, 0
-POKE 61098, 0: POKE 61099, 128
-POKE 61100, 0: POKE 61101, 0
+POKE 63912, 168: POKE 63913, 238		REM HL = 61096
+POKE 61096, 0: POKE 61097, 0			REM Buffer start = 0
+POKE 61098, 0: POKE 61099, 128			REM Buffer length = 32K
+POKE 61100, 0: POKE 61101, 0			REM Initial sum = 0
 EXEC 61024
-?PEEK(61100)+256*PEEK(61101)
+?PEEK(61100)+256*PEEK(61101)			REM CRC-16 result
 ```
 
 _____
